@@ -1,0 +1,38 @@
+
+"""
+2.009 PINK team Final Project - EE team  
+Code for Calibration 
+Meiji, Joy 
+
+Last updated:  2015.11.05
+"""
+
+import math
+
+d1 = 100 #distance from Anchor1 to Light
+d2 = 100 #distance from Anchor2 to Light 
+d3 = 150 #distance from Anchor1 to Anchor2 
+d4 = 150 # distance from Light to TestingPosition
+
+delta_x = 100 #distance from Anchor1 to TestingPosition
+
+a = 1 # horizontal distance from Anchor1 to Light 
+l = 1 # slanted distance from Light to ?  
+h = 1 # heigth of Light 
+
+def calibration (d1, d2, d3, d4):
+    ##solve for a 
+    a = (d3*d3 + d1*d1 - d2*d2) / (2 * d3) 
+    
+    ##solve for l 
+    l = d4 * math.sin(math.acos((d4*d4 + delta_x*delta_x - d1*d1) / (2 * d4 * delta_x)))
+    
+    ##solve for h 
+    h = math.sqrt(l*l - a*a)
+    
+    print 'a :', a
+    print 'l :', l    
+    print 'h :', h 
+
+###testing     
+calibration(d1, d2, d3, d4)
