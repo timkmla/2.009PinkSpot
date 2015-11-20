@@ -1,0 +1,66 @@
+## PID Control for Motors
+## 11/17/2015
+## Titan Hartono
+
+#################################################################
+# Define Function
+''' Inputs: CurrentPan, CurrentTilt, DesiredPan, DesiredTilt,
+            KpPan, KpTilt, KdPan, KdTilt, KiPan, KiTilt, Time,
+            TimeStep
+    Outputs: NewPan, NewTilt
+'''
+##ErrorPan = CurrentPan - DesiredPan
+##ErrorTilt = CurrentTilt - DesiredTilt
+##dt = Time / TimeStep #dt cannot be zero
+
+#################################################################
+# Proportional Term
+''' Produces output value proportional to current error value
+'''
+##NewPanP = KpPan * ErrorPan
+##NewTiltP = KpTilt * ErrorTilt
+
+#################################################################
+# Integral Term
+''' Proportional to both the magnitude and duration of the error
+'''
+    ## Loop for Pan
+    ''' To add up all the new pan angles using integrator '''
+##    i = 0
+##    PanI = 0
+##    for i <= Time:
+##        PanI = PanI + ErrorPan * dt
+##        i = i + dt
+##    NewPanI = KiPan * PanI
+    
+    ## Loop for Tilt
+    ''' To add up all the new tilt angles using integrator '''
+##    j = 0
+##    TiltI = 0
+##    for j <= Time:
+##        TiltI = TiltI + ErrorI * dt
+##        i = i + dt
+##    NewTiltI = KiTilt * TiltI
+
+#################################################################
+# Derivative Term
+''' Multiplying the rate of error with a constant
+'''
+    ## Pan
+    ''' Getting new pan angle using derivator '''
+##    dePan = ErrorPanNow - ErrorPanPrev
+##    NewPanD = Kd * dePan / dt
+    
+    ## Tilt
+    ''' Getting new tilt angle using derivator '''
+##    deTilt = ErrorTiltNow - ErrorTiltPrev
+##    NewTiltD = Kd * deTilt / dt
+
+# need to add loop for each pan and tilt
+
+#################################################################
+# Total New PID
+''' Calculating the new pan and tilt angle using PID controller
+'''
+##NewPan = NewPanP + NewPanI + NewPanD
+##NewTilt = NewTiltP + NewTiltI + NewTiltD
