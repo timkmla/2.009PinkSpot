@@ -21,31 +21,87 @@ Currently NOT in a loop, just runs once
 """
 
 import pysimpledmx # make sure it is in same home directory
+import time
 
-COMport = "/dev/ttyUSB0" # define COMport number
+COMport = "/dev/cu.usbserial-ENYXTLPV" # define COMport number
 
 mydmx = pysimpledmx.DMXConnection(COMport) # create dmx object
 
 # assuming that we are getting pan angle and tilt angle, make sure we're getting floats!
-pAngle = 30.0
-tAngle = 30.0
+
+# with light in upright position, @ tAngle = 45 and pAngle = 210, lamp is parallel to ground, lamp is perpendicular to flat edge
+
+tAngle = float(0.0)
+pAngle = float(0.0)
 
 # math for turning "real angles" into DMX values
 pAnglePercentage = pAngle/540
 tAnglePercentage = tAngle/270
 
-pAngleDMX = round(pAnglePercentage*65535) 
-tAngleDMX = round(tAnglePercentage*65535) 
+pAngleDMX = int(round(pAnglePercentage*65535))
+tAngleDMX = int(round(tAnglePercentage*65535))
 
-pAngleDMX 
-tAngleDMX
+pAngleDMX = format(pAngleDMX, '016b')
+tAngleDMX = format(tAngleDMX, '016b')
+
+pAnglefine = int(pAngleDMX[8:16],2)
+pAnglecoarse = int(pAngleDMX[0:8],2)
+
+tAnglefine = int(tAngleDMX[8:16],2)
+tAnglecoarse = int(tAngleDMX[0:8],2)
+
+print "pfine = " + str(tAnglefine)
+print "pcoarse = " + str(tAnglecoarse)
+
+print "tfine = " + str(tAnglefine)
+print "tcoarse = " + str(tAnglecoarse)
+
 
 # for reals sending values to DMX
 
-mydmx.setChannel(1, 255) # set DMX channel 1 to full
-mydmx.setChannel(2, 128) # set DMX channel 2 to 128
-mydmx.setChannel(3, 0) # set DMX channel 3 to 0
-mydmx.render() render # render all of the above changes onto the DMX network
+mydmx.setChannel(2,18)
+mydmx.setChannel(3,132)
+mydmx.setChannel(6, pAnglecoarse)
+mydmx.setChannel(7, pAnglefine)
+mydmx.setChannel(8, tAnglecoarse)
+mydmx.setChannel(9, tAnglefine)
+mydmx.setChannel(10, 250)
 
-mydmx.setChannel(4, 255, autorender=True) # set channel 4 to full and render to the network
+time.sleep(5)
 
+tAngle = float(45.0)
+pAngle = float(180.0)
+
+# math for turning "real angles" into DMX values
+pAnglePercentage = pAngle/540
+tAnglePercentage = tAngle/270
+
+pAngleDMX = int(round(pAnglePercentage*65535))
+tAngleDMX = int(round(tAnglePercentage*65535))
+
+pAngleDMX = format(pAngleDMX, '016b')
+tAngleDMX = format(tAngleDMX, '016b')
+
+pAnglefine = int(pAngleDMX[8:16],2)
+pAnglecoarse = int(pAngleDMX[0:8],2)
+
+tAnglefine = int(tAngleDMX[8:16],2)
+tAnglecoarse = int(tAngleDMX[0:8],2)
+
+print "pfine = " + str(tAnglefine)
+print "pcoarse = " + str(tAnglecoarse)
+
+print "tfine = " + str(tAnglefine)
+print "tcoarse = " + str(tAnglecoarse)
+
+
+# for reals sending values to DMX
+
+mydmx.setChannel(2,18)
+mydmx.setChannel(3,132)
+mydmx.setChannel(6, pAnglecoarse)
+mydmx.setChannel(7, pAnglefine)
+mydmx.setChannel(8, tAnglecoarse)
+mydmx.setChannel(9, tAnglefine)
+mydmx.setChannel(10, 250)
+mydmx.render() # render all of the above changes onto the DMX network
